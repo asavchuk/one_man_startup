@@ -6,9 +6,10 @@ import 'Trip.dart';
 class HomeView extends StatelessWidget {
   final List<Trip> tripList = [
     Trip('NewYork', DateTime.now(), DateTime.now(), 200.99, 'Car'),
-    Trip('Boston', DateTime.now(), DateTime.now(), 200.10, 'Train'),
-    Trip('Washington', DateTime.now(), DateTime.now(), 200.25, 'Bus'),
-    Trip('Austin', DateTime.now(), DateTime.now(), 200.00, 'Plane'),
+    Trip('Boston', DateTime.now(), DateTime.now(), 200.10, 'Car'),
+    Trip('Washington', DateTime.now(), DateTime.now(), 200.25, 'Car'),
+    Trip('Austin', DateTime.now(), DateTime.now(), 200.00, 'Car'),
+    Trip('Florence', DateTime.now(), DateTime.now(), 180.00, 'Car'),
   ];
 
   @override
