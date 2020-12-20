@@ -32,6 +32,7 @@ dependencies:
   english_words: ^3.1.5
   intl: ^0.16.1
   date_range_picker: ^1.0.6
+  auto_size_text: ^2.1.0
 
 dev_dependencies:
   flutter_test:
