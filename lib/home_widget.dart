@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:one_man_startup/pages.dart';
+import 'package:one_man_startup/services/auth_service.dart';
 import 'package:one_man_startup/views/new_trips/locaion_views.dart';
+import 'package:one_man_startup/widgets/provider_vidget.dart';
 
 import 'models/Trip.dart';
 import 'views/home_view.dart';
@@ -36,6 +38,18 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               );
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.undo),
+            onPressed: () async {
+              try {
+                AuthService auth = Provider.of(context).auth;
+                await auth.signOut();
+                print('signed out');
+              } catch (e) {
+                print(e);
+              }
             },
           )
         ],

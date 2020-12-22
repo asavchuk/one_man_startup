@@ -8,7 +8,8 @@ class NewTripBudgetView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final db = FirebaseFirestore.instance;
+    // final db = FirebaseFirestore.instance;
+    final db = Firestore.instance;
 
     return Scaffold(
       appBar: AppBar(

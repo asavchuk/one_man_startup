@@ -1,89 +1,52 @@
-import 'package:english_words/english_words.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:one_man_startup/services/auth_service.dart';
 import 'package:one_man_startup/views/first_view.dart';
+import 'package:one_man_startup/views/sign_up_view.dart';
+import 'package:one_man_startup/widgets/provider_vidget.dart';
 
-import 'home.dart';
+import 'home_widget.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Travel Budget App',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    return Provider(
+      auth: AuthService(),
+      child: MaterialApp(
+        title: 'Travel Budget App',
+        theme: ThemeData(
+          primarySwatch: Colors.green,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        // home: Home(),
+        home: HomeController(),
+        routes: <String, WidgetBuilder>{
+          '/signUp': (BuildContext context) => SignUpView(authFormType: AuthFormType.signUp),
+          '/signIn': (BuildContext context) => SignUpView(authFormType: AuthFormType.signIn),
+          '/home': (BuildContext context) => HomeController(),
+        },
       ),
-      // home: Home(),
-      home: FirstView(),
-      routes: <String, WidgetBuilder>{
-        '/signUp': (BuildContext context) => Home(),
-        '/home': (BuildContext context) => Home(),
-      },
     );
   }
 }
 
-class RandomWords extends StatefulWidget {
-  RandomWords({Key key}) : super(key: key);
-
-  @override
-  _RandomWordsState createState() => _RandomWordsState();
-}
-
-class _RandomWordsState extends State<RandomWords> {
-  final List<WordPair> _suggestions = <WordPair>[];
-  final Set<WordPair> _saved = Set<WordPair>();
-
+class HomeController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('My suggestions'),
-      ),
-      body: _buildSuggestions(),
-    );
-  }
-
-  Widget _buildSuggestions() {
-    return ListView.builder(
-      itemBuilder: (BuildContext _context, int i) {
-        if (i.isOdd) {
-          return Divider();
+    final auth = Provider.of(context).auth;
+    return StreamBuilder(
+      stream: auth.onAuthStateChanged,
+      builder: (context, AsyncSnapshot<String> snapshot) {
+        if (snapshot.connectionState == ConnectionState.active) {
+          final bool signedIn = snapshot.hasData;
+          return signedIn ? Home() : FirstView();
         }
-
-        final index = i ~/ 2;
-        if (index >= _suggestions.length) {
-          _suggestions.addAll(generateWordPairs().take(10));
-        }
-
-        return _buildRow(_suggestions[index]); //new row
-      },
-    );
-  }
-
-  Widget _buildRow(WordPair pair) {
-    final bool saved = _saved.contains(pair);
-    return ListTile(
-      title: Text(pair.asPascalCase),
-      trailing: Icon(
-        saved ? Icons.favorite : Icons.favorite_outline,
-        color: saved ? Colors.red : null,
-      ),
-      onTap: () {
-        setState(() {
-          if (saved) {
-            _saved.remove(pair);
-          } else {
-            _saved.add(pair);
-          }
-        });
+        return CircularProgressIndicator();
       },
     );
   }
