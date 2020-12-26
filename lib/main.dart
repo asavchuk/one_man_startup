@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:one_man_startup/services/auth_service.dart';
 import 'package:one_man_startup/views/first_view.dart';
 import 'package:one_man_startup/views/sign_up_view.dart';
-import 'package:one_man_startup/widgets/provider_vidget.dart';
+import 'package:one_man_startup/widgets/provider_widget.dart';
 
 import 'home_widget.dart';
 
@@ -23,7 +23,6 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.green,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        // home: Home(),
         home: HomeController(),
         routes: <String, WidgetBuilder>{
           '/signUp': (BuildContext context) => SignUpView(authFormType: AuthFormType.signUp),
