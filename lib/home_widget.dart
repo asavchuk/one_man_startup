@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:one_man_startup/pages.dart';
 import 'package:one_man_startup/services/auth_service.dart';
 import 'package:one_man_startup/views/new_trips/locaion_views.dart';
-import 'package:one_man_startup/widgets/provider_vidget.dart';
+import 'package:one_man_startup/widgets/provider_widget.dart';
 
 import 'models/Trip.dart';
 import 'views/home_view.dart';

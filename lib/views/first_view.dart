@@ -58,14 +58,15 @@ class FirstView extends StatelessWidget {
                 ),
                 SizedBox(height: _height * 0.05),
                 FlatButton(
-                    onPressed: () {
-                      Navigator.of(context).pushReplacementNamed('/signIn');
-                    },
-                    child: Text(
-                      'Sing In',
-                      style:
-                          TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w300),
-                    ))
+                  onPressed: () {
+                    Navigator.of(context).pushReplacementNamed('/signIn');
+                  },
+                  child: Text(
+                    'Sing In',
+                    style:
+                        TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w300),
+                  ),
+                ),
               ],
             ),
           ),
