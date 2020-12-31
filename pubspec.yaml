@@ -30,11 +30,13 @@ dependencies:
 
   cloud_firestore: ^0.12.6
   firebase_auth: ^0.11.1+10
+  google_sign_in: ^4.5.6
 
-  english_words: ^3.1.5
   intl: ^0.16.1
   date_range_picker: ^1.0.6
   auto_size_text: ^2.1.0
+  flutter_spinkit: ^3.1.0
+  flutter_auth_buttons: ^0.10.0
 
 dev_dependencies:
   flutter_test:
