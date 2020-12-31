@@ -4,7 +4,7 @@ import 'package:one_man_startup/views/first_view.dart';
 import 'package:one_man_startup/views/sign_up_view.dart';
 import 'package:one_man_startup/widgets/provider_widget.dart';
 
-import 'home_widget.dart';
+import 'views/navigation_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,9 +25,12 @@ class MyApp extends StatelessWidget {
         ),
         home: HomeController(),
         routes: <String, WidgetBuilder>{
+          '/home': (BuildContext context) => HomeController(),
           '/signUp': (BuildContext context) => SignUpView(authFormType: AuthFormType.signUp),
           '/signIn': (BuildContext context) => SignUpView(authFormType: AuthFormType.signIn),
-          '/home': (BuildContext context) => HomeController(),
+          '/anonymousSignIn': (BuildContext context) =>
+              SignUpView(authFormType: AuthFormType.anonymous),
+          '/convertUser': (BuildContext context) => SignUpView(authFormType: AuthFormType.convert),
         },
       ),
     );

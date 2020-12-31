@@ -46,11 +46,11 @@ class FirstView extends StatelessWidget {
                       context: context,
                       builder: (BuildContext context) => CustomDialog(
                         description:
-                            'With account your data will be sequrely saved, allowing to get them only for you',
-                        title: 'Would you like to create a free acoount?',
+                            'With account your data will be securely saved, allowing to get them only for you',
+                        title: 'Would you like to create a free account?',
                         primaryButtonRoute: '/signUp',
                         primaryButtonText: 'Create My Account',
-                        secondaryButtonRoute: '/home',
+                        secondaryButtonRoute: '/anonymousSignIn',
                         secondaryButtonText: 'Maybe Later',
                       ),
                     );
