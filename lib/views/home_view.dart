@@ -1,29 +1,31 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-import '../models/Trip.dart';
+import 'package:one_man_startup/widgets/provider_widget.dart';
 
 class HomeView extends StatelessWidget {
-  final List<Trip> tripList = [
-    Trip('NewYork', DateTime.now(), DateTime.now(), 200.99, 'Car'),
-    Trip('Boston', DateTime.now(), DateTime.now(), 200.10, 'Car'),
-    Trip('Washington', DateTime.now(), DateTime.now(), 200.25, 'Car'),
-    Trip('Austin', DateTime.now(), DateTime.now(), 200.00, 'Car'),
-    Trip('Florence', DateTime.now(), DateTime.now(), 180.00, 'Car'),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: ListView.builder(
-        itemCount: tripList.length,
-        itemBuilder: (BuildContext context, int index) => _buildTripCard(context, index),
-      ),
+      child: StreamBuilder(
+          stream: getUsersTripsStreamSnapshot(context),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) return const Text('Loading...');
+            return ListView.builder(
+              itemCount: snapshot.data.documents.length,
+              itemBuilder: (BuildContext context, int index) =>
+                  _buildTripCard(context, snapshot.data.documents[index]),
+            );
+          }),
     );
   }
 
-  Widget _buildTripCard(BuildContext context, int index) {
-    final trip = tripList[index];
+  Stream<QuerySnapshot> getUsersTripsStreamSnapshot(BuildContext context) async* {
+    final uid = await Provider.of(context).auth.getCurrentUID();
+    yield* Firestore.instance.collection('userData').document(uid).collection('trips').snapshots();
+  }
+
+  Widget _buildTripCard(BuildContext context, DocumentSnapshot trip) {
     return Container(
       child: Card(
         child: Padding(
@@ -35,7 +37,7 @@ class HomeView extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      trip.title,
+                      trip['title'],
                       style: TextStyle(color: Theme.of(context).accentColor, fontSize: 30),
                     ),
                     Spacer(),
@@ -47,7 +49,7 @@ class HomeView extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      '${DateFormat('dd/MM/yyyy').format(trip.startDate).toString()} - ${DateFormat('dd/MM/yyyy').format(trip.endDate).toString()}',
+                      '${DateFormat('dd/MM/yyyy').format(trip['startDate'].toDate()).toString()} - ${DateFormat('dd/MM/yyyy').format(trip['endDate'].toDate()).toString()}',
                     ),
                     Spacer(),
                   ],
@@ -56,7 +58,7 @@ class HomeView extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    '\$${trip.budget.toStringAsFixed(2)}',
+                    '\$${(trip['budget'] == null) ? 'n/a' : trip['budget'].toStringAsFixed(2)}',
                     style: TextStyle(fontSize: 30),
                   ),
                   Spacer(),

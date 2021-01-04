@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:one_man_startup/models/Trip.dart';
+import 'package:one_man_startup/widgets/provider_widget.dart';
 
 class NewTripBudgetView extends StatelessWidget {
   final Trip trip;
@@ -8,9 +9,7 @@ class NewTripBudgetView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final db = FirebaseFirestore.instance;
     final db = Firestore.instance;
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Create Trip - Budget'),
@@ -26,7 +25,10 @@ class NewTripBudgetView extends StatelessWidget {
             RaisedButton(
               onPressed: () async {
                 //save data to firebase
+                String uid = await Provider.of(context).auth.getCurrentUID();
                 await db
+                    .collection('userData')
+                    .document(uid)
                     .collection('trips')
                     .add(trip.toJson())
                     .catchError((error) => print("Failed to add new trip: $error"));
