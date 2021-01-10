@@ -32,7 +32,6 @@ class NewTripBudgetView extends StatelessWidget {
                     .collection('trips')
                     .add(trip.toJson())
                     .catchError((error) => print("Failed to add new trip: $error"));
-
                 Navigator.of(context).popUntil((route) => route.isFirst);
               },
               child: Text('Continue'),
